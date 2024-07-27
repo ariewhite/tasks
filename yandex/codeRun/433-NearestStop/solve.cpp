@@ -25,9 +25,8 @@ int main()
     unsigned int n, k;
     std::cin >> n >> k;
 
-    std::vector<int> *ai = new std::vector<int>;
-    // std::vector<int> * coords = new std::vector<int>;
-    // std::set<int> * set = new std::set<int>;
+    std::vector<int> * ai     = new std::vector<int>;
+    std::vector<int> * coords = new std::vector<int>;
 
     for (size_t i = 0; i < n; ++i) // fell a(i)
     {
@@ -35,10 +34,18 @@ int main()
         std::cin >> num;
         ai->push_back(num);
     }
-    for (size_t i = 0; i < k; ++i) // fell bus coordinates
+    for (size_t i = 0; i < k; ++i)
     {
         int num;
         std::cin >> num;
+        coords->push_back(num);
+
+    }
+    
+    for (size_t i = 0; i < k; ++i) // fell bus coordinates
+    {
+        int num = coords->at(i);
+        num = abs(num);
 
         int low = 0; 
         int high = ai->size() - 1;
@@ -58,7 +65,7 @@ int main()
                 close = middle;
                 low = middle + 1;
             }
-            if (num < (*ai)[middle]){
+            else {
                 high = middle - 1;
             }
         }
@@ -66,16 +73,17 @@ int main()
 
         closeRight = close + 1;
 
-        if (close == -1){
-            //std::cout << "right" << std::endl;
-            std::cout << closeRight + 1<< std::endl;
+        if (close == -1) {
+            std::cout << (closeRight < ai->size() ? closeRight + 1 : 1) << std::endl;
+        } else if (closeRight < ai->size() && abs((*ai)[closeRight] - num) < abs((*ai)[close] - num)) {
+            std::cout << closeRight + 1 << std::endl;
         } else {
-            //std::cout << "left" << std::endl;
             std::cout << close + 1 << std::endl;
         }
     }
 
     delete ai;
+    delete coords;
 }
 
 // 1 3 5 7 9 10 13 14 17 20 24 25 27 28
