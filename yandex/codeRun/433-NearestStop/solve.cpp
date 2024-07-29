@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 int main()
 {
@@ -25,22 +26,33 @@ int main()
     
     for (int num : coords)
     {
-        auto it = std::lower_bound(ai.cbegin(), ai.cend(), num);
+        auto lt = std::lower_bound(ai.cbegin(), ai.cend(), num);
 
-        if (it != ai.cend() && *it == num){
-            std::cout << std::distance(ai.cbegin(), it) + 1 << std::endl;
+        if (lt != ai.cend() && *lt == num){
+            std::cout << std::distance(ai.cbegin(), lt) + 1 << std::endl;
         }
-        else if (it == ai.cbegin()){
+        else if (lt == ai.cbegin()){
+            
             std::cout << 1 << std::endl;
         }
-        else if(it == ai.cend()){       
+        else if(lt == ai.cend()){       
             std::cout << n << std::endl;
         }
         else{
-            int index = std::distance(ai.cbegin(), it);
-            std::cout << index << std::endl;
+            int index = std::distance(ai.cbegin(), lt) + 1; lt--; // right
+            int leftIndex = std::distance(ai.cbegin(), lt) + 1; // left
+
+            int leftDistance = abs(*lt - num); lt++;
+            int rightDistance = abs(*lt - num);
+
+            if (leftDistance == rightDistance) {
+                std::cout << leftIndex << std::endl;
+            } else if (rightDistance > leftDistance) {
+                
+                std::cout << leftIndex << std::endl;
+            } else {
+                std::cout << index << std::endl;
+            }        
         }        
     }
 }
-
-// 1 3 5 7 9 10 13 14 17 20 24 25 27 28
